@@ -1,3 +1,4 @@
+#Alex Antone
 import tkinter as tk
 from tkinter import simpledialog
 import random
@@ -10,11 +11,9 @@ class Game_part2(Game):
     def __init__(self):
         super().__init__()
 
-         # Use the stock's history for the graph
-        
-
+    
     def draw_graph(self, stock):
-        if not self.canvas:  # If the canvas is not set, do nothing
+        if not self.canvas: 
             return
 
         if len(stock.history) < 2:
@@ -24,7 +23,7 @@ class Game_part2(Game):
         min_price = min(stock.history)
 
         for i in range(len(stock.history) - 1):
-            x1 = (i / (len(stock.history) - 1)) * 400  # Adjust for current history length
+            x1 = (i / (len(stock.history) - 1)) * 400 
             y1 = 200 - ((stock.history[i] - min_price) / (max_price - min_price) * 200)
             x2 = ((i + 1) / (len(stock.history) - 1)) * 400
             y2 = 200 - ((stock.history[i + 1] - min_price) / (max_price - min_price) * 200)
@@ -38,9 +37,9 @@ class Game_part2(Game):
             self.price_label.config(text=f"Current Price: ${stock.price:.2f}")
             stock.history.append(stock.price)
             stock.history.pop(0)
-            self.canvas.delete('all')  # Add the new price to history
-            self.draw_graph(stock)  # Update the graph
-            self.root.after(1000, update)  # Update every second
+            self.canvas.delete('all') 
+            self.draw_graph(stock)  
+            self.root.after(1000, update)
         
         update()
 
