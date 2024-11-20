@@ -1,3 +1,4 @@
+#Tyler Frost
 import tkinter as tk
 from tkinter import simpledialog
 import random
