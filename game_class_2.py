@@ -11,7 +11,17 @@ class Game_part2(Game):
     def __init__(self):
         super().__init__()
 
-    
+    def create_graph(self, stock):
+        if self.canvas:
+            frame = tk.Frame(self.root)
+            frame.pack(pady=10)
+            self.canvas = tk.Canvas(frame, width=400, height=200)
+            self.canvas.pack()
+        
+        self.canvas.delete("all")
+        self.lines.clear()
+        self.draw_graph(stock)
+        
     def draw_graph(self, stock):
         if not self.canvas: 
             return
