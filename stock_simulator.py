@@ -11,6 +11,7 @@ class Game:
         self.canvas = None
         self.lines = []
         self.stocks = [
+            # Stock names and descripitons written by AI to change later
             # Penny stocks
             Stock("FinCorp", "Finance", "A low-cost finance stock.", random.uniform(1, 10)),
             Stock("TechNova", "Tech", "A tech penny stock.", random.uniform(1, 10)),
@@ -76,11 +77,10 @@ class Game:
         self.clear_window()
         tk.Label(self.root, text="Stocks").pack(pady=10)
 
-        # Display player money
         money_label = tk.Label(self.root, text=f"Available Money: ${self.player_money:.2f}")
         money_label.pack(pady=5)
 
-        # Create a Canvas and Frame for scrolling
+        
         self.canvas = tk.Canvas(self.root)
         self.scrollbar = tk.Scrollbar(self.root, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = tk.Frame(self.canvas)
@@ -89,8 +89,7 @@ class Game:
 
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
-
-        # Pack the Canvas and Scrollbar
+        
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.scrollbar.pack(side=tk.RIGHT, fill="y")
 
@@ -124,19 +123,4 @@ class Game:
         tk.Button(self.root, text="Back to Stocks", command=self.create_stock_page).pack(pady=5)
         self.start_price_update_view(stock)
 
-    def create_graph(self, stock):
-         # Check if the canvas exists, create it if not
-        if self.canvas:
-            frame = tk.Frame(self.root)
-            frame.pack(pady=10)
-            self.canvas = tk.Canvas(frame, width=400, height=200)
-            self.canvas.pack()
-        
-        # Clear previous graph lines
-        self.canvas.delete("all")  # Clear all items from the canvas
-
-    # Clear the lines list for new graph
-        self.lines.clear()
-        # Create a new canvas for the graph
-        self.draw_graph(stock)
         
