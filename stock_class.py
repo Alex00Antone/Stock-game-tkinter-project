@@ -1,3 +1,5 @@
+#Alex Antone
+
 import random
 
 class Stock:
