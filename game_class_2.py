@@ -1,7 +1,4 @@
-# Tyler Frost
-# 
-
-
+#Alex Antone
 import tkinter as tk
 from tkinter import simpledialog
 import random
