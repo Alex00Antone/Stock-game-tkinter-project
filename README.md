@@ -6,4 +6,6 @@ Tyler Frost working on game_class_2.py
 
 Michael Dickinson working on stock_simulator.py
 
-//
+We worked on stock_simulator and game_class_2 together, the names at the top are who did the most
+
+Alex will add options Class and Tyler will add it into Game_part2 Class for the final submission
