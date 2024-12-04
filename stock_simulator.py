@@ -96,9 +96,13 @@ class Game:
 
         self.stock_frames = {}
         for stock in self.stocks:
+            if stock.name in self.player_stocks:
+                shares_owned = self.player_stocks[stock.name]
+            else:
+                shares_owned = 0
             frame = tk.Frame(self.scrollable_frame)
             frame.pack(pady=5)
-            self.stock_frames[stock.name] = tk.Label(frame, text=f"{stock.name}: ${stock.price:.2f}")
+            self.stock_frames[stock.name] = tk.Label(frame, text=f"{stock.name}: ${stock.price:.2f}  Owned: {shares_owned}")
             self.stock_frames[stock.name].pack(side=tk.LEFT)
             tk.Button(frame, text="View", command=lambda s=stock: self.view_stock(s)).pack(side=tk.LEFT)
             
@@ -108,8 +112,12 @@ class Game:
 
     def update_stock_prices(self):
         for stock in self.stocks:
+            if stock.name in self.player_stocks:
+                shares_owned = self.player_stocks[stock.name]
+            else:
+                shares_owned = 0
             stock.update_price()
-            self.stock_frames[stock.name].config(text=f"{stock.name}: ${stock.price:.2f}")
+            self.stock_frames[stock.name].config(text=f"{stock.name}: ${stock.price:.2f}  Owned: {shares_owned}")
         self.root.after(5000, self.update_stock_prices)
 
     def view_stock(self, stock):
