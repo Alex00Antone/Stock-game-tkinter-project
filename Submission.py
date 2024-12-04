@@ -75,9 +75,9 @@ class Game_part2(Game):
 
         
 
-    # Alex wrote this, had to add in game class
+    # Alex wrote buy option, had to add in game class
     def buy_option(self, option):
-        # have to fix to buy proper amount of shares
+        
         strike_price = simpledialog.askfloat("Strike price", "Enter the strike price:", minvalue=1)
         if strike_price is not None:
             option.update_strike_price(strike_price)
@@ -91,8 +91,10 @@ class Game_part2(Game):
                 self.player_money -= total_cost
                 if option.name in self.player_options:
                     self.player_options[option.name] += calls_to_buy
+                    self.player_stocks_price[stock1.name] = stock1.price
                 else:
                     self.player_options[option.name] = calls_to_buy
+                    self.player_stocks_price[stock1.name] = stock1.price
                 tk.messagebox.showinfo("Purchase Successful", f"You bought {calls_to_buy} options of {option.name}!")
             else:
                 tk.messagebox.showerror("Purchase Failed", "You do not have enough money to buy this stock.")
@@ -126,14 +128,17 @@ class Game_part2(Game):
             if calls_to_sell is not None:
                 if calls_to_sell <= shares_owned:
                     self.player_options[option.name] -= calls_to_sell
-                    self.player_money += calls_to_sell * option.price
-                    tk.messagebox.showinfo("Sale Successful", f"You sold {calls_to_sell} calls of {option.name}!")
+                    index1 = self.options.index(option)
+                    stock1 = self.stocks[index1]
+                    price = self.player_stocks_price[stock1.name]
+                    self.player_money += ((calls_to_sell *price)-(calls_to_sell*stock1.price))
+                    tk.messagebox.showinfo("Sale Successful", f"You exercised {calls_to_sell} calls of {option.name}!")
                 else:
-                    tk.messagebox.showerror("Sale Failed", "You do not own enough shares to sell this amount.")
+                    tk.messagebox.showerror("Sale Failed", "You do not own enough calls to exercise this amount.")
             else:
                 tk.messagebox.showwarning("Input Cancelled", "Sale cancelled.")
         else:
-            tk.messagebox.showerror("Sale Failed", "You do not own any shares of this stock.")
+            tk.messagebox.showerror("Sale Failed", "You do not own any calls of this stock.")
 
         self.create_stock_page()
 
@@ -148,4 +153,4 @@ class Game_part2(Game):
 if __name__ == "__main__":
     Game_part2()
 
-    # add main loop functionality
+
