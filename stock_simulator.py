@@ -156,6 +156,6 @@ class Game:
         tk.Button(self.root, text="Sell", command=lambda s=stock: self.sell_stock(s)).pack(side=tk.LEFT)
         tk.Button(self.root, text="Buy option", command=lambda o=option: self.buy_option(o)).pack(side=tk.LEFT)
         tk.Button(self.root, text="Sell option", command=lambda o=option: self.sell_option(o)).pack(side=tk.LEFT)
-        tk.Button(self.root, text="Back to Stocks", command=self.create_stock_page).pack(pady=5)
+        tk.Button(self.root, text="Back to Stocks", command=self.create_stock_page).pack(side=tk.RIGHT)
         
         self.start_price_update_view(stock)
