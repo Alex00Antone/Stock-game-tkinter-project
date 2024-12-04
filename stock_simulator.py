@@ -17,7 +17,7 @@ class Game:
         self.canvas = None
         self.lines = []
         self.stocks = [
-            # Stock names and descripitons written by AI to change later
+            # Stock names and descripitons written by AI
             # Penny stocks
             Stock("FinCorp", "Finance", "A low-cost finance stock.", random.uniform(1, 10)),
             Stock("TechNova", "Tech", "A tech penny stock.", random.uniform(1, 10)),
