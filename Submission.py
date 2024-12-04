@@ -1,4 +1,8 @@
 #Michael Dickinson
+#CSCI 128 K
+#Final Project: Stock Simulator Game 
+#Group: Tyler Frost, Alex Antone 
+#Time: 20 hours
 import tkinter as tk
 from tkinter import simpledialog
 import random
