@@ -76,6 +76,7 @@ class Game:
         self.rate = random.randrange(1, 10, 1)
         self.dividend_yield = random.randrange(0, 5, 1)
         self.sigma = 7
+        self.player_stocks_price = {}
         
         self.options = [Option(stock.name, stock.price, self.strike_price, self.rate, self.dividend_yield, self.sigma) for stock in self.stocks]
         self.create_main_menu()
@@ -139,10 +140,17 @@ class Game:
 
     def view_stock(self, stock, option):
         self.clear_window()
+        if stock.name in self.player_stocks:
+            shares_owned = self.player_stocks[stock.name]
+        else:
+            shares_owned = 0
+
         tk.Label(self.root, text=f"{stock.name} ({stock.sector})").pack(pady=10)
         tk.Label(self.root, text=stock.description).pack(pady=5)
         self.price_label = tk.Label(self.root, text=f"Current Price: ${stock.price:.2f}")
+        self.owned_label = tk.Label(self.root, text=f"Stocks Owned: {shares_owned}")
         self.price_label.pack(pady=5)
+        self.owned_label.pack(pady= 5)
         self.create_graph(stock)
         tk.Button(self.root, text="Buy", command=lambda s=stock: self.buy_stock(s)).pack(side=tk.LEFT)
         tk.Button(self.root, text="Sell", command=lambda s=stock: self.sell_stock(s)).pack(side=tk.LEFT)
