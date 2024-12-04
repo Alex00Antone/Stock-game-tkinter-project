@@ -73,7 +73,33 @@ class Game_part2(Game):
         else:
             tk.messagebox.showwarning("Input Cancelled", "Purchase cancelled.")
 
-        self.create_stock_page()
+        
+
+    # Alex wrote this, had to add in game class
+    def buy_option(self, option):
+        # have to fix to buy proper amount of shares
+        strike_price = simpledialog.askfloat("Strike price", "Enter the strike price:", minvalue=1)
+        if strike_price is not None:
+            option.update_strike_price(strike_price)
+            index1 = self.options.index(option)
+            stock1 = self.stocks[index1]
+            call_price = option.call_price(stock1)
+            calls_to_buy = simpledialog.askfloat("calls to buy", f"Price per call: {call_price:.2f} Enter the amount of calls:", minvalue=1)
+            
+            total_cost = calls_to_buy * option.call_price(stock1)
+            if self.player_money >= total_cost:
+                self.player_money -= total_cost
+                if option.name in self.player_options:
+                    self.player_options[option.name] += calls_to_buy
+                else:
+                    self.player_options[option.name] = calls_to_buy
+                tk.messagebox.showinfo("Purchase Successful", f"You bought {calls_to_buy} options of {option.name}!")
+            else:
+                tk.messagebox.showerror("Purchase Failed", "You do not have enough money to buy this stock.")
+        else:
+            tk.messagebox.showwarning("Input Cancelled", "Purchase cancelled.")
+        
+        
 
     def sell_stock(self, stock):
         if stock.name in self.player_stocks:
@@ -92,6 +118,27 @@ class Game_part2(Game):
             tk.messagebox.showerror("Sale Failed", "You do not own any shares of this stock.")
 
         self.create_stock_page()
+
+    def sell_option(self, option):
+        if option.name in self.player_options:
+            shares_owned = self.player_options[option.name]
+            calls_to_sell = simpledialog.askinteger("Sell Options", "Enter the number of options to sell:", minvalue=1, maxvalue=shares_owned)
+            if calls_to_sell is not None:
+                if calls_to_sell <= shares_owned:
+                    self.player_options[option.name] -= calls_to_sell
+                    self.player_money += calls_to_sell * option.price
+                    tk.messagebox.showinfo("Sale Successful", f"You sold {calls_to_sell} calls of {option.name}!")
+                else:
+                    tk.messagebox.showerror("Sale Failed", "You do not own enough shares to sell this amount.")
+            else:
+                tk.messagebox.showwarning("Input Cancelled", "Sale cancelled.")
+        else:
+            tk.messagebox.showerror("Sale Failed", "You do not own any shares of this stock.")
+
+        self.create_stock_page()
+
+
+    
 
     def clear_window(self):
         for widget in self.root.winfo_children():
