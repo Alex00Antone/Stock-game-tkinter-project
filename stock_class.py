@@ -1,4 +1,8 @@
 #Alex Antone
+#CSCI 128 G
+#Final Project: Stock Simulator Game
+#Group: Tyler Frost, Michael Dickinson
+#Time: 20 hours
 import random
 
 class Stock:
