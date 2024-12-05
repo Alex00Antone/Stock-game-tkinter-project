@@ -57,7 +57,7 @@ class Game_part2(Game):
         
         update()
 
-    def buy_stock(self, stock):
+    def buy_stock(self, stock, option):
         shares_to_buy = simpledialog.askinteger("Buy Shares", "Enter the number of shares to buy:", minvalue=1)
         if shares_to_buy is not None:
             total_cost = shares_to_buy * stock.price
@@ -73,6 +73,7 @@ class Game_part2(Game):
         else:
             tk.messagebox.showwarning("Input Cancelled", "Purchase cancelled.")
 
+        self.view_stock(stock, option)
         
 
     # Alex wrote buy option, had to add in game class
@@ -84,7 +85,7 @@ class Game_part2(Game):
             index1 = self.options.index(option)
             stock1 = self.stocks[index1]
             call_price = option.call_price(stock1)
-            calls_to_buy = simpledialog.askfloat("calls to buy", f"Price per call: {call_price:.2f} Enter the amount of calls:", minvalue=1)
+            calls_to_buy = simpledialog.askinteger("calls to buy", f"Price per call: {call_price:.2f} Enter the amount of calls:", minvalue=1)
             
             total_cost = calls_to_buy * option.call_price(stock1)
             if self.player_money >= total_cost:
@@ -103,7 +104,7 @@ class Game_part2(Game):
         
         
 
-    def sell_stock(self, stock):
+    def sell_stock(self, stock, option):
         if stock.name in self.player_stocks:
             shares_owned = self.player_stocks[stock.name]
             shares_to_sell = simpledialog.askinteger("Sell Shares", "Enter the number of shares to sell:", minvalue=1, maxvalue=shares_owned)
@@ -119,7 +120,7 @@ class Game_part2(Game):
         else:
             tk.messagebox.showerror("Sale Failed", "You do not own any shares of this stock.")
 
-        self.create_stock_page()
+        self.view_stock(stock,option)
 
     def sell_option(self, option):
         if option.name in self.player_options:
@@ -140,7 +141,6 @@ class Game_part2(Game):
         else:
             tk.messagebox.showerror("Sale Failed", "You do not own any calls of this stock.")
 
-        self.create_stock_page()
 
 
     
