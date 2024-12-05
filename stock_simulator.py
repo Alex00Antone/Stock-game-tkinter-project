@@ -115,14 +115,17 @@ class Game:
                 shares_owned = self.player_stocks[stock.name]
             else:
                 shares_owned = 0
-
             index1 = self.stocks.index(stock)
+            if self.options[index1].name in self.player_options:
+                calls_owned = self.player_options[self.options[index1].name]
+            else:
+                calls_owned = 0
 
             frame = tk.Frame(self.scrollable_frame)
             frame.pack(pady=5)
-            self.stock_frames[stock.name] = tk.Label(frame, text=f"{stock.name}: ${stock.price:.2f}  Owned: {shares_owned}")
+            self.stock_frames[stock.name] = tk.Label(frame, text=f"{stock.name}: ${stock.price:.2f}  Owned Stock: {shares_owned}  Owned Calls: {calls_owned}")
             self.stock_frames[stock.name].pack(side=tk.LEFT)
-            tk.Button(frame, text="View", command=lambda s=stock, o= self.options[index1]: self.view_stock(s, o)).pack(side=tk.LEFT)
+            tk.Button(frame, text="View", command=lambda s=stock, o=self.options[index1]: self.view_stock(s, o)).pack(side=tk.LEFT)
             
 
         self.update_stock_prices()
@@ -134,8 +137,13 @@ class Game:
                 shares_owned = self.player_stocks[stock.name]
             else:
                 shares_owned = 0
+            index1 = self.stocks.index(stock)
+            if self.options[index1].name in self.player_options:
+                calls_owned = self.player_options[self.options[index1].name]
+            else:
+                calls_owned = 0
             stock.update_price()
-            self.stock_frames[stock.name].config(text=f"{stock.name}: ${stock.price:.2f}  Owned: {shares_owned}")
+            self.stock_frames[stock.name].config(text=f"{stock.name}: ${stock.price:.2f}  Owned Stock: {shares_owned}  Owned Calls: {calls_owned}")
         self.root.after(5000, self.update_stock_prices)
 
     def view_stock(self, stock, option):
@@ -145,15 +153,15 @@ class Game:
         else:
             shares_owned = 0
 
-        tk.Label(self.root, text=f"{stock.name} ({stock.sector})").pack(pady=10)
-        tk.Label(self.root, text=stock.description).pack(pady=5)
+        tk.Label(self.root, text=f"{stock.name} ({stock.sector})").pack(pady=5)
+        tk.Label(self.root, text=stock.description).pack(pady=2)
         self.price_label = tk.Label(self.root, text=f"Current Price: ${stock.price:.2f}")
         self.owned_label = tk.Label(self.root, text=f"Stocks Owned: {shares_owned}")
         self.price_label.pack(pady=5)
-        self.owned_label.pack(pady= 5)
+        self.owned_label.pack(pady=2)
         self.create_graph(stock)
-        tk.Button(self.root, text="Buy", command=lambda s=stock: self.buy_stock(s)).pack(side=tk.LEFT)
-        tk.Button(self.root, text="Sell", command=lambda s=stock: self.sell_stock(s)).pack(side=tk.LEFT)
+        tk.Button(self.root, text="Buy", command=lambda s=stock, o=option: self.buy_stock(s,o)).pack(side=tk.LEFT)
+        tk.Button(self.root, text="Sell", command=lambda s=stock, o=option: self.sell_stock(s,o)).pack(side=tk.LEFT)
         tk.Button(self.root, text="Buy option", command=lambda o=option: self.buy_option(o)).pack(side=tk.LEFT)
         tk.Button(self.root, text="Sell option", command=lambda o=option: self.sell_option(o)).pack(side=tk.LEFT)
         tk.Button(self.root, text="Back to Stocks", command=self.create_stock_page).pack(side=tk.RIGHT)
